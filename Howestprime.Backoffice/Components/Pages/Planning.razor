@@ -1,0 +1,15 @@
+@page "/"
+@using Howestprime.Backoffice.Components.Planning
+@rendermode InteractiveServer
+
+<PageTitle>Home</PageTitle>
+
+<main class="app-content">
+  <div class="month-nav-container">
+    <RoomLegend />
+    <MonthNavigator />
+    <div style="width: 100px;"></div>
+  </div>
+
+  <CalendarGrid />
+</main>
