@@ -1,0 +1,18 @@
+<div class="month-nav">
+    <button class="prev-month" @onclick="() => ChangeMonth(-1)">&larr;</button>
+    <h2 class="month-year" id="monthYear">@month @year</h2>
+    <button class="next-month" @onclick="() => ChangeMonth(1)">&rarr;</button>
+</div>
+
+@code {
+    string month = DateTime.Now.ToString("MMMM");
+    int year = DateTime.Now.Year;
+
+    protected DateTime ChangeMonth(int offset){
+        DateTime current = new DateTime(year, DateTime.ParseExact(month, "MMMM", null).Month, 1);
+        DateTime newDate = current.AddMonths(offset);
+        month = newDate.ToString("MMMM");
+        year = newDate.Year;
+        return newDate;
+    }
+}
