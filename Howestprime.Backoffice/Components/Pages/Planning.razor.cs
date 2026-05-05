@@ -6,6 +6,8 @@ public partial class Planning
 {
     string month = DateTime.Now.ToString("MMMM");
     int year = DateTime.Now.Year;
+    DateTime selectedDate;
+    bool isShowingEventModal = false;
     private MonthNavigator MonthNavigator { get; set; }
     private CalendarGrid CalendarGrid { get; set; }
 
@@ -29,5 +31,16 @@ public partial class Planning
         month = newDate.ToString("MMMM");
         year = newDate.Year;
         await RenderCalendar();
+    }
+
+    protected async Task ShowEventModal(DateTime date)
+    {
+        selectedDate = date;
+        isShowingEventModal = true;
+    }
+
+    protected void CloseEventModal()
+    {
+        isShowingEventModal = false;
     }
 }
