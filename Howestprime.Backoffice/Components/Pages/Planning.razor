@@ -11,5 +11,9 @@
     <div style="width: 100px;"></div>
   </div>
 
-  <CalendarGrid @ref="CalendarGrid" />
+  <CalendarGrid @ref="CalendarGrid" ShowEventModal="ShowEventModal" />
+
+  <div class="modal-overlay @(isShowingEventModal ? "active" : "")" id="addEventModal" >
+    <EventModal CloseEventModal="CloseEventModal"/>
+  </div>
 </main>
