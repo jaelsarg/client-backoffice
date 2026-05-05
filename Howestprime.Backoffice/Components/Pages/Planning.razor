@@ -7,9 +7,9 @@
 <main class="app-content">
   <div class="month-nav-container">
     <RoomLegend />
-    <MonthNavigator />
+    <MonthNavigator @ref="MonthNavigator" month="@month" year="@year" OnMonthChange="OnMonthChange" />
     <div style="width: 100px;"></div>
   </div>
 
-  <CalendarGrid />
+  <CalendarGrid @ref="CalendarGrid" />
 </main>
