@@ -1,3 +1,7 @@
+@using System.Globalization
+@using System.CodeDom.Compiler
+@using System.Runtime.InteropServices
+
 <div class="calendar-grid">
     <div class="day-name">Sun</div>
     <div class="day-name">Mon</div>
@@ -9,4 +13,52 @@
 </div>
 
 <!-- Actual day cells go here (dynamically, no blanks) -->
-<div class="calendar-grid" id="calendarDays"></div>
+<div class="calendar-grid" id="calendarDays">
+    @foreach (var (day, date) in calendarDays)
+    {
+        @if (day == 0)
+        {
+            <div class = "empty-cell"></div>
+        }
+        else if (date.Date < DateTime.Today.Date)
+        {
+            <div class="day-cell disabled-day date-number">
+                @day
+            </div>
+        }
+        else
+        {
+            <div class="day-cell date-number">
+                @day
+            </div>
+        }
+    }
+</div>
+
+@code {
+    private List<(int day, DateTime date)> calendarDays = new();
+
+    public async Task RenderCalendarDays(string month, int year)
+    {
+        int monthNumber = DateTime.ParseExact(month, "MMMM", null).Month;
+        DateTime firstDayOfMonth = new DateTime(year, monthNumber, 1);
+        int firstDayOfWeek = (int)firstDayOfMonth.DayOfWeek;
+        int daysInMonth = DateTime.DaysInMonth(year, monthNumber);
+
+        // Clear existing days
+        calendarDays.Clear();
+
+        // Add empty cells for days before first day of month
+        for (int i = 0; i < firstDayOfWeek; i ++)
+        {
+            calendarDays.Add((0, DateTime.MinValue));
+        }
+
+        // Add all days for current month
+        for (int day = 1; day <= daysInMonth; day++){
+            calendarDays.Add((day, new DateTime(year, monthNumber, day)));
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+}
