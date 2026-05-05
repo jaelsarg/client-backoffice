@@ -28,7 +28,7 @@
         }
         else
         {
-            <div class="day-cell date-number">
+            <div class="day-cell date-number" @onclick="() => OpenEventModal(date)">
                 @day
             </div>
         }
@@ -37,6 +37,8 @@
 
 @code {
     private List<(int day, DateTime date)> calendarDays = new();
+    [Parameter]
+    public EventCallback<DateTime> ShowEventModal { get; set; }
 
     public async Task RenderCalendarDays(string month, int year)
     {
@@ -45,20 +47,22 @@
         int firstDayOfWeek = (int)firstDayOfMonth.DayOfWeek;
         int daysInMonth = DateTime.DaysInMonth(year, monthNumber);
 
-        // Clear existing days
         calendarDays.Clear();
 
-        // Add empty cells for days before first day of month
         for (int i = 0; i < firstDayOfWeek; i ++)
         {
             calendarDays.Add((0, DateTime.MinValue));
         }
 
-        // Add all days for current month
         for (int day = 1; day <= daysInMonth; day++){
             calendarDays.Add((day, new DateTime(year, monthNumber, day)));
         }
 
         await InvokeAsync(StateHasChanged);
+    }
+
+    public async Task OpenEventModal(DateTime date)
+    {
+        await ShowEventModal.InvokeAsync(date);
     }
 }
