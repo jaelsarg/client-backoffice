@@ -9,6 +9,10 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddHowestprimeMoviesApiClient(builder.Configuration.GetSection("MoviesApi"));
 
+builder.Services.AddScoped<IMovieEventService, MovieEventService>();
+builder.Services.AddScoped<IRoomService, RoomService>();
+builder.Services.AddScoped<IMovieService, MovieService>();
+
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
