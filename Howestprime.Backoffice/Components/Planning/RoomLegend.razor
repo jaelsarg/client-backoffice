@@ -1,10 +1,15 @@
+@using Howestprime.Backoffice.ViewModels.Planning
+
 <div class="room-legend">
-    <div class="room-legend-item">
-        <div class="room-legend-color room-legend-blue"></div>
-        <span>Room I</span>
-    </div>
-    <div class="room-legend-item">
-        <div class="room-legend-color room-legend-yellow"></div>
-        <span>Room II</span>
-    </div>
+    @foreach (var room in rooms){
+        <div class="room-legend-item">
+            <div class="room-legend-color @(room.Name == "Blue Room" ? "room-legend-blue" : "room-legend-yellow")"></div>
+            <span>@room.Name</span>
+        </div>
+    }
 </div>
+
+@code {
+    [Parameter]
+    public IList<RoomViewModel> rooms { get; set; } = [];
+}
