@@ -15,7 +15,7 @@
         <label for="modalRoom">Room</label>
         <select id="modalRoom" class="form-control" required @bind="selectedRoom">
         <option value="">-- Choose a Room --</option>
-        @foreach (var room in rooms)
+        @foreach (RoomViewModel room in rooms)
         {
             <option value="@room.Id">@room.Name</option>
         }
@@ -35,11 +35,10 @@
         <label for="modalMovie">Movie</label>
         <select id="modalMovie" class="form-control" required @bind="selectedMovie">
         <option value="">-- Choose a Movie --</option>
-        <option value="8f247c7d-953b-447c-be6f-ef405316b938">Dune</option>
-        <option value="Star Wars">Star Wars</option>
-        <option value="Inception">Inception</option>
-        <option value="Interstellar">Interstellar</option>
-        <option value="Mulan">Mulan</option>
+        @foreach (MovieViewModel movie in movies)
+        {
+            <option value="@movie.Id">@movie.Title</option>
+        }
         </select>
     </div>
     
@@ -56,6 +55,8 @@
     public int Year { get; set; }
     [Parameter]
     public IList<RoomViewModel> rooms { get; set; } = [];
+    [Parameter]
+    public IList<MovieViewModel> movies { get; set; } = [];
     [Parameter]
     public EventCallback<EventViewModel> SaveNewEvent { get; set; }
     public string selectedRoom;
