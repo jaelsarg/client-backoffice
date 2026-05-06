@@ -1,3 +1,5 @@
+@using Howestprime.Backoffice.ViewModels.Planning
+
 <div class="modal-content">
     <div class="modal-header">
     <i class="fa-solid fa-clapperboard"></i>
@@ -11,16 +13,18 @@
     
     <div class="form-group">
         <label for="modalRoom">Room</label>
-        <select id="modalRoom" class="form-control" required>
+        <select id="modalRoom" class="form-control" required @bind="selectedRoom">
         <option value="">-- Choose a Room --</option>
-        <option value="event-room1">Room I</option>
-        <option value="event-room2">Room II</option>
+        @foreach (var room in rooms)
+        {
+            <option value="@room.Id">@room.Name</option>
+        }
         </select>
     </div>
     
     <div class="form-group">
         <label for="modalTime">Time</label>
-        <select id="modalTime" class="form-control" required>
+        <select id="modalTime" class="form-control" required @bind="selectedTime">
         <option value="">-- Choose a Time --</option>
         <option value="15:00">15:00</option>
         <option value="19:00">19:00</option>
@@ -29,9 +33,9 @@
     
     <div class="form-group">
         <label for="modalMovie">Movie</label>
-        <select id="modalMovie" class="form-control" required>
+        <select id="modalMovie" class="form-control" required @bind="selectedMovie">
         <option value="">-- Choose a Movie --</option>
-        <option value="Dune">Dune</option>
+        <option value="8f247c7d-953b-447c-be6f-ef405316b938">Dune</option>
         <option value="Star Wars">Star Wars</option>
         <option value="Inception">Inception</option>
         <option value="Interstellar">Interstellar</option>
@@ -45,10 +49,27 @@
 
 @code {
     [Parameter]
-    public EventCallback CloseEventModal { get; set; }
+    public int Day { get; set; }
+    [Parameter]
+    public int Month { get; set; }
+    [Parameter]
+    public int Year { get; set; }
+    [Parameter]
+    public IList<RoomViewModel> rooms { get; set; } = [];
+    [Parameter]
+    public EventCallback<EventViewModel> SaveNewEvent { get; set; }
+    public string selectedRoom;
+    private string selectedTime;
+    private string selectedMovie;
 
     public async Task SaveEvent()
     {
-        await CloseEventModal.InvokeAsync(null);
+        EventViewModel eventModel = new EventViewModel
+        {
+            MovieId = selectedMovie,
+            RoomId = selectedRoom,
+            ShowTime = new DateTime(Year, Month, Day).Add(TimeSpan.Parse(selectedTime)) 
+        };
+        await SaveNewEvent.InvokeAsync(eventModel);
     }
 }
