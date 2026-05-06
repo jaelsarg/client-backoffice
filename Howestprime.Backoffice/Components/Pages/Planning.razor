@@ -14,6 +14,12 @@
   <CalendarGrid @ref="CalendarGrid" ShowEventModal="ShowEventModal" />
 
   <div class="modal-overlay @(isShowingEventModal ? "active" : "")" id="addEventModal" >
-    <EventModal day="@selectedDate.Day" month="@selectedDate.Month" year="@selectedDate.Year" rooms="@Rooms" SaveNewEvent="SaveNewEvent" />
+    <EventModal 
+              day="@selectedDate.Day"
+              month="@selectedDate.Month"
+              year="@selectedDate.Year"
+              rooms="@Rooms"
+              movies="@Movies"
+              SaveNewEvent="SaveNewEvent" />
   </div>
 </main>
