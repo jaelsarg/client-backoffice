@@ -6,7 +6,7 @@
 
 <main class="app-content">
   <div class="month-nav-container">
-    <RoomLegend />
+    <RoomLegend rooms="@Rooms" />
     <MonthNavigator @ref="MonthNavigator" month="@month" year="@year" OnMonthChange="OnMonthChange" />
     <div style="width: 100px;"></div>
   </div>
@@ -14,6 +14,6 @@
   <CalendarGrid @ref="CalendarGrid" ShowEventModal="ShowEventModal" />
 
   <div class="modal-overlay @(isShowingEventModal ? "active" : "")" id="addEventModal" >
-    <EventModal CloseEventModal="CloseEventModal"/>
+    <EventModal day="@selectedDate.Day" month="@selectedDate.Month" year="@selectedDate.Year" rooms="@Rooms" SaveNewEvent="SaveNewEvent" />
   </div>
 </main>
