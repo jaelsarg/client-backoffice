@@ -63,24 +63,24 @@ public partial class Planning
 
     protected async Task LoadMovieEvents()
     {
-        IList<MovieEvent> MovieEventResponses = await MovieEventService.FindMovieEventsForMonth(DateTime.Now.Month, DateTime.Now.Year);
+        IList<MovieEvent> MovieEventResponses = await MovieEventService.FindMovieEventsForMonth(DateTime.Now.Month, DateTime.Now.Year); 
         Events = MovieEventResponses.Select(e => new EventViewModel
         {
             MovieId = e.Movie.Id.ToString(),
+            MovieTitle = e.Movie.Title,
             RoomId = e.Room.Id.ToString(),
+            RoomName = e.Room.Name,
             ShowTime = e.Showtime
         }).ToList();
     }
 
     protected async Task RenderCalendar()
     {
-        RenderCalendarDays(month, year);
+        await RenderCalendarDays(month, year);
     }
 
     protected async Task RenderCalendarDays(int month, int year)
     {
-        // Show movie events in day
-
         DateTime firstDayOfMonth = new DateTime(year, month, 1);
         int firstDayOfWeek = (int)firstDayOfMonth.DayOfWeek;
         int daysInMonth = DateTime.DaysInMonth(year, month);
@@ -98,13 +98,15 @@ public partial class Planning
 
         for (int i = 1; i <= daysInMonth; i++)
         {
+            IList<EventViewModel> eventsForDay = Events.Where(e => e.ShowTime.Date == new DateTime(year, month, i)).ToList();
             DaysInMonth.Add(new DayViewModel
             {
                 Day = i,
                 Date = new DateTime(year, month, i),
                 IsEmpty = false,
                 IsDisabled = new DateTime(year, month, i) < DateTime.Today,
-                ShowEventModal = false
+                ShowEventModal = false,
+                MovieEvents = eventsForDay
             });
         }
 
@@ -132,13 +134,21 @@ public partial class Planning
         selectedDay = null;
     }
 
-    protected async Task SaveNewEvent()
+    protected async Task SaveNewEvent(EventViewModel newEvent)
     {
-        // Get data from form
-        // Create request
-        // Send request
-        // Load movie events
-        // Render movie events
-        // Hide modal
+        DayViewModel day = selectedDay;
+
+        ScheduleMovieEventRequest request = new ScheduleMovieEventRequest
+        {
+            MovieId = Guid.Parse(newEvent.MovieId),
+            RoomId = Guid.Parse(newEvent.RoomId),
+            Showtime = newEvent.ShowTime
+        };
+
+        string eventId = await MovieEventService.ScheduleMovieEvent(request);
+
+        await LoadMovieEvents();
+        await RenderCalendarDays(day.Date.Month, day.Date.Year);
+        await HideEventModal();
     }
 }
