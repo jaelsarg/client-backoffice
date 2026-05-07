@@ -159,14 +159,14 @@ public sealed class MockMoviesStore
         [
             new RoomEntity
             {
-                Id = Guid.Parse("019c778a-5272-772c-8b1b-88c2f0eebc0b"),
-                Name = "Room 1",
-                Capacity = 120
+                Id = Guid.Parse("019d059e-d220-71db-8a1a-ec7569492999"),
+                Name = "Blue Room",
+                Capacity = 100
             },
             new RoomEntity
             {
-                Id = Guid.Parse("019c778a-5272-79fe-ab58-1b36ae39bc54"),
-                Name = "Room 2",
+                Id = Guid.Parse("019d059e-d220-75fe-b936-0a97cd75216e"),
+                Name = "Yellow Room",
                 Capacity = 80
             }
         ]);
