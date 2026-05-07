@@ -21,14 +21,12 @@
             @day.Day
             @if (day.MovieEvents.Any())
             {
-                <div class="event">
-                    @foreach (EventViewModel movieEvent in day.MovieEvents)
-                    {
-                        <div class="event @(movieEvent.RoomName == "Blue Room" ? "event-room1" : "event-room2")">
-                            @movieEvent.ShowTime.ToString("HH:mm") - @movieEvent.MovieTitle
-                        </div>
-                    }
-                </div>
+                @foreach (EventViewModel movieEvent in day.MovieEvents)
+                {
+                    <div class="event @(movieEvent.RoomName == "Blue Room" ? "event-blue-room" : "event-yellow-room")">
+                        @movieEvent.ShowTime.ToString("HH:mm") - @movieEvent.MovieTitle
+                    </div>
+                }
             }
         </div>
     }
