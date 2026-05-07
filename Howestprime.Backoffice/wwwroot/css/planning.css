@@ -129,11 +129,11 @@
   font-weight: bold;
 }
 
-.event-room1 {
+.event-blue-room {
   background-color: var(--color-primary);
 }
 
-.event-room2 {
+.event-yellow-room {
   background-color: var(--color-accent);
   color: var(--color-dark);
 }
