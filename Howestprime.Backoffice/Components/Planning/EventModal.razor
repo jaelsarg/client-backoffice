@@ -1,76 +1,53 @@
 @using Howestprime.Backoffice.ViewModels.Planning
 
-<div class="modal-content">
-    <div class="modal-header">
-    <i class="fa-solid fa-clapperboard"></i>
-    <h2>Add Movie Event</h2>
-    </div>
-    <!-- The form to choose Room, Time, Movie -->
-    <form class="modal-form" id="modalForm">
-    <input type="hidden" id="modalDay" />
-    <input type="hidden" id="modalMonth" />
-    <input type="hidden" id="modalYear" />
-    
-    <div class="form-group">
-        <label for="modalRoom">Room</label>
-        <select id="modalRoom" class="form-control" required @bind="selectedRoom">
-        <option value="">-- Choose a Room --</option>
-        @foreach (RoomViewModel room in rooms)
-        {
-            <option value="@room.Id">@room.Name</option>
-        }
-        </select>
-    </div>
-    
-    <div class="form-group">
-        <label for="modalTime">Time</label>
-        <select id="modalTime" class="form-control" required @bind="selectedTime">
-        <option value="">-- Choose a Time --</option>
-        <option value="15:00">15:00</option>
-        <option value="19:00">19:00</option>
-        </select>
-    </div>
-    
-    <div class="form-group">
-        <label for="modalMovie">Movie</label>
-        <select id="modalMovie" class="form-control" required @bind="selectedMovie">
-        <option value="">-- Choose a Movie --</option>
-        @foreach (MovieViewModel movie in movies)
-        {
-            <option value="@movie.Id">@movie.Title</option>
-        }
-        </select>
-    </div>
-    
-    <button type="submit" class="modal-submit-btn" @onclick="() => SaveEvent()">Save Event</button>
-    </form>
+<div class="modal-header">
+<i class="fa-solid fa-clapperboard"></i>
+<h2>Add Movie Event</h2>
+</div>
+<!-- The form to choose Room, Time, Movie -->
+<form class="modal-form" id="modalForm">
+<input type="hidden" id="modalDay" />
+<input type="hidden" id="modalMonth" />
+<input type="hidden" id="modalYear" />
+
+<div class="form-group">
+    <label for="modalRoom">Room</label>
+    <select id="modalRoom" class="form-control" required>
+    <option value="">-- Choose a Room --</option>
+    @foreach (var room in Rooms)
+    {
+        <option value="@room.Id">@room.Name</option>
+    }
+    </select>
 </div>
 
-@code {
-    [Parameter]
-    public int Day { get; set; }
-    [Parameter]
-    public int Month { get; set; }
-    [Parameter]
-    public int Year { get; set; }
-    [Parameter]
-    public IList<RoomViewModel> rooms { get; set; } = [];
-    [Parameter]
-    public IList<MovieViewModel> movies { get; set; } = [];
-    [Parameter]
-    public EventCallback<EventViewModel> SaveNewEvent { get; set; }
-    public string selectedRoom;
-    private string selectedTime;
-    private string selectedMovie;
+<div class="form-group">
+    <label for="modalTime">Time</label>
+    <select id="modalTime" class="form-control" required>
+    <option value="">-- Choose a Time --</option>
+    <option value="15:00">15:00</option>
+    <option value="19:00">19:00</option>
+    </select>
+</div>
 
-    public async Task SaveEvent()
+<div class="form-group">
+    <label for="modalMovie">Movie</label>
+    <select id="modalMovie" class="form-control" required>
+    <option value="">-- Choose a Movie --</option>
+    @foreach (var movie in Movies)
     {
-        EventViewModel eventModel = new EventViewModel
-        {
-            MovieId = selectedMovie,
-            RoomId = selectedRoom,
-            ShowTime = new DateTime(Year, Month, Day).Add(TimeSpan.Parse(selectedTime)) 
-        };
-        await SaveNewEvent.InvokeAsync(eventModel);
+        <option value="@movie.Id">@movie.Title</option>
     }
+    </select>
+</div>
+
+<button type="submit" class="modal-submit-btn">Save Event</button>
+</form>
+
+@code 
+{
+    [Parameter]
+    public IList<RoomViewModel> Rooms { get; set; } = [];
+    [Parameter]
+    public IList<MovieViewModel> Movies { get; set; } = [];
 }
