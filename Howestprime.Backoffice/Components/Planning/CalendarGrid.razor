@@ -1,7 +1,9 @@
 @using System.Globalization
 @using System.CodeDom.Compiler
 @using System.Runtime.InteropServices
+@using Howestprime.Backoffice.ViewModels.Planning
 
+<!-- Day-of-week Header (7 cells for Sun..Sat) -->
 <div class="calendar-grid">
     <div class="day-name">Sun</div>
     <div class="day-name">Mon</div>
@@ -14,55 +16,22 @@
 
 <!-- Actual day cells go here (dynamically, no blanks) -->
 <div class="calendar-grid" id="calendarDays">
-    @foreach (var (day, date) in calendarDays)
-    {
-        @if (day == 0)
-        {
-            <div class = "empty-cell"></div>
-        }
-        else if (date.Date < DateTime.Today.Date)
-        {
-            <div class="day-cell disabled-day date-number">
-                @day
-            </div>
-        }
-        else
-        {
-            <div class="day-cell date-number" @onclick="() => OpenEventModal(date)">
-                @day
-            </div>
-        }
+    @foreach (DayViewModel day in daysInMonth){
+        <div class="@(day.IsEmpty ? "empty-cell" : "day-cell date-number") @(day.IsDisabled ? "disabled-day" : "")" @onclick="() => OnDayClick(day)">
+            @day.Day
+        </div>
     }
 </div>
 
-@code {
-    private List<(int day, DateTime date)> calendarDays = new();
+@code
+{
     [Parameter]
-    public EventCallback<DateTime> ShowEventModal { get; set; }
+    public IList<DayViewModel> daysInMonth { get; set; }
+    [Parameter]
+    public EventCallback<DayViewModel> ShowEventModal { get; set; }
 
-    public async Task RenderCalendarDays(string month, int year)
+    private async Task OnDayClick(DayViewModel day)
     {
-        int monthNumber = DateTime.ParseExact(month, "MMMM", null).Month;
-        DateTime firstDayOfMonth = new DateTime(year, monthNumber, 1);
-        int firstDayOfWeek = (int)firstDayOfMonth.DayOfWeek;
-        int daysInMonth = DateTime.DaysInMonth(year, monthNumber);
-
-        calendarDays.Clear();
-
-        for (int i = 0; i < firstDayOfWeek; i ++)
-        {
-            calendarDays.Add((0, DateTime.MinValue));
-        }
-
-        for (int day = 1; day <= daysInMonth; day++){
-            calendarDays.Add((day, new DateTime(year, monthNumber, day)));
-        }
-
-        await InvokeAsync(StateHasChanged);
-    }
-
-    public async Task OpenEventModal(DateTime date)
-    {
-        await ShowEventModal.InvokeAsync(date);
+        if (!day.IsDisabled) await ShowEventModal.InvokeAsync(day);
     }
 }
