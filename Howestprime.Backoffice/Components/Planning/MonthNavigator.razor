@@ -1,26 +1,19 @@
+@using System.Globalization
+
 <div class="month-nav">
-    <button class="prev-month" @onclick="() => ChangeMonth(-1)">&larr;</button>
+    <button class="prev-month" @onclick="() => OnMonthChange.InvokeAsync(-1)">&larr;</button>
     <h2 class="month-year" id="monthYear">@month @year</h2>
-    <button class="next-month" @onclick="() => ChangeMonth(1)">&rarr;</button>
+    <button class="next-month" @onclick="() => OnMonthChange.InvokeAsync(1)">&rarr;</button>
 </div>
 
-@code {
+@code
+{
     [Parameter]
     public string month { get; set; }
 
     [Parameter]
     public int year { get; set; }
-    [Parameter]
-    public EventCallback<DateTime> OnMonthChange { get; set; }
-        
-    public void UpdateMonthYearHeader(string month, int year){
-        this.month = month;
-        this.year = year;
-    }
 
-    protected async Task ChangeMonth(int offset){
-        DateTime current = new DateTime(year, DateTime.ParseExact(month, "MMMM", null).Month, 1);
-        DateTime newDate = current.AddMonths(offset);
-        await OnMonthChange.InvokeAsync(newDate);
-    }
+    [Parameter]
+    public EventCallback<int> OnMonthChange { get; set; }
 }
