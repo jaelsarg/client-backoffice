@@ -24,9 +24,11 @@
   <div class="modal-overlay @(selectedDay?.ShowEventModal == true ? "active" : "")" id="addEventModal" @onclick="HideEventModal">
     <div class="modal-content" @onclick:stopPropagation>
 
-      <EventModal 
+      <EventModal
+        SelectedDate="@(selectedDay?.Date ?? DateTime.Now)"
         Rooms="@Rooms"
-        Movies="@Movies"/>
+        Movies="@Movies"
+        SaveNewEvent="SaveNewEvent" />
 
     </div>
   </div>
