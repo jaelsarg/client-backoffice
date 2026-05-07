@@ -6,20 +6,29 @@
 
 <main class="app-content">
   <div class="month-nav-container">
+
     <RoomLegend rooms="@Rooms" />
-    <MonthNavigator @ref="MonthNavigator" month="@month" year="@year" OnMonthChange="OnMonthChange" />
+
+    <MonthNavigator
+        month="@monthName"
+        year="@year"
+        OnMonthChange="OnMonthChange" />
+
     <div style="width: 100px;"></div>
   </div>
 
-  <CalendarGrid @ref="CalendarGrid" ShowEventModal="ShowEventModal" />
+  <CalendarGrid
+    daysInMonth="@DaysInMonth"
+    ShowEventModal="ShowEventModal" />
 
-  <div class="modal-overlay @(isShowingEventModal ? "active" : "")" id="addEventModal" >
-    <EventModal 
-              day="@selectedDate.Day"
-              month="@selectedDate.Month"
-              year="@selectedDate.Year"
-              rooms="@Rooms"
-              movies="@Movies"
-              SaveNewEvent="SaveNewEvent" />
+  <div class="modal-overlay @(selectedDay?.ShowEventModal == true ? "active" : "")" id="addEventModal" @onclick="HideEventModal">
+    <div class="modal-content" @onclick:stopPropagation>
+
+      <EventModal 
+        Rooms="@Rooms"
+        Movies="@Movies"/>
+
+    </div>
   </div>
+
 </main>
