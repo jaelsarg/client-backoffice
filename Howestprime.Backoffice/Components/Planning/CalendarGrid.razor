@@ -19,6 +19,17 @@
     @foreach (DayViewModel day in daysInMonth){
         <div class="@(day.IsEmpty ? "empty-cell" : "day-cell date-number") @(day.IsDisabled ? "disabled-day" : "")" @onclick="() => OnDayClick(day)">
             @day.Day
+            @if (day.MovieEvents.Any())
+            {
+                <div class="event">
+                    @foreach (EventViewModel movieEvent in day.MovieEvents)
+                    {
+                        <div class="event @(movieEvent.RoomName == "Blue Room" ? "event-room1" : "event-room2")">
+                            @movieEvent.ShowTime.ToString("HH:mm") - @movieEvent.MovieTitle
+                        </div>
+                    }
+                </div>
+            }
         </div>
     }
 </div>
