@@ -22,8 +22,6 @@ public class MovieEventService(IMovieEventsApiClient movieEventsApiClient) : IMo
 
     public async Task<string> ScheduleMovieEvent(ScheduleMovieEventRequest eventRequest)
     {
-        Console.WriteLine($"Scheduling event: MovieId={eventRequest.MovieId}, RoomId={eventRequest.RoomId}, Showtime={eventRequest.Showtime}");
-
         ScheduleMovieEventRequest request = new ScheduleMovieEventRequest
         {
             MovieId = eventRequest.MovieId,
@@ -33,8 +31,6 @@ public class MovieEventService(IMovieEventsApiClient movieEventsApiClient) : IMo
 
         var result = await movieEventsApiClient.ScheduleMovieEventAsync(request);
 
-        Console.WriteLine(result);
-
-        return "Event scheduled successfully";
+        return result.Value?.Location ?? string.Empty;
     }
 }
