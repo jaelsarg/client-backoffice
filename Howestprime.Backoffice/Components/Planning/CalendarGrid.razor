@@ -41,6 +41,6 @@
 
     private async Task OnDayClick(DayViewModel day)
     {
-        if (!day.IsDisabled) await ShowEventModal.InvokeAsync(day);
+        if (!day.IsEmpty && !day.IsDisabled) await ShowEventModal.InvokeAsync(day);
     }
 }
