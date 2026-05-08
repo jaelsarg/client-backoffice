@@ -5,7 +5,7 @@
 <h2>Add Movie Event</h2>
 </div>
 <!-- The form to choose Room, Time, Movie -->
-<form class="modal-form" id="modalForm">
+<form class="modal-form" id="modalForm" @onsubmit:preventDefault="true">
 <input type="hidden" id="modalDay" value="@SelectedDate.Day"/>
 <input type="hidden" id="modalMonth" value="@SelectedDate.Month"/>
 <input type="hidden" id="modalYear" value="@SelectedDate.Year"/>
@@ -65,7 +65,7 @@
         {
             MovieId = selectedMovie,
             RoomId = selectedRoom,
-            ShowTime = new DateTime(SelectedDate.Year, SelectedDate.Month, SelectedDate.Day, int.Parse(selectedTime.Split(':')[0]), int.Parse(selectedTime.Split(':')[1]), 0)
+            ShowTime = new DateTime(SelectedDate.Year, SelectedDate.Month, SelectedDate.Day, int.Parse(selectedTime.Split(':')[0]), int.Parse(selectedTime.Split(':')[1]), 0, DateTimeKind.Utc)
         };
 
         await SaveNewEvent.InvokeAsync(newEvent);
