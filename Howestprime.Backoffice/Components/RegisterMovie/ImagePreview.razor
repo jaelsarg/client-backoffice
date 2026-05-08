@@ -1,0 +1,14 @@
+<div class="image-preview-container">
+    <h2>Poster preview</h2>
+    <div class="image-preview">
+       <img class="image-placeholder" 
+             src="@(string.IsNullOrEmpty(PosterUrl) ? "https://dummyimage.com/300x450/ccccccc/969696&text=Poster+preview" : PosterUrl)" 
+             alt="Poster Preview" />
+    </div>
+</div>
+
+@code
+{
+    [Parameter]
+    public string PosterUrl { get; set; } = string.Empty;
+}
