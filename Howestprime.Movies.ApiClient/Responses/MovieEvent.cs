@@ -8,7 +8,7 @@ public sealed class MovieEvent
 
     public Room Room { get; set; } = new();
 
-    public DateTimeOffset Showtime { get; set; }
+    public DateTime Showtime { get; set; }
 
     public int Capacity { get; set; }
 }
