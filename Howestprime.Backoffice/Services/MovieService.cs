@@ -22,8 +22,22 @@ public class MovieService(IMovieCatalogApiClient movieCatalogApiClient) : IMovie
 
     }
 
-    public Task<string> RegisterMovie(RegisterMovieRequest movieRequest)
+    public async Task<string> RegisterMovie(RegisterMovieRequest movieRequest)
     {
-        throw new NotImplementedException();
+        RegisterMovieRequest request = new RegisterMovieRequest
+        {
+            Title = movieRequest.Title,
+            Description = movieRequest.Description,
+            ReleaseYear = movieRequest.ReleaseYear,
+            Duration = movieRequest.Duration,
+            Genres = movieRequest.Genres,
+            Actors = movieRequest.Actors,
+            AgeRating = movieRequest.AgeRating,
+            PosterUrl = movieRequest.PosterUrl
+        };
+
+        var result = await movieCatalogApiClient.RegisterMovieAsync(request);
+
+        return result.Value?.ToString() ?? string.Empty;
     }
 }
