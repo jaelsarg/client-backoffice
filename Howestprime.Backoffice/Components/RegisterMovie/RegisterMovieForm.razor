@@ -1,0 +1,87 @@
+@using Howestprime.Backoffice.ViewModels.Movie
+<form class="form-container" id="registerMovieForm">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" id="title" required @bind="title" />
+    </div>
+
+    <div class="form-group">
+        <label for="genre">Genre</label>
+        <input type="text" id="genre" required @bind="genre" />
+    </div>
+
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" required @bind="description"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="releaseYear">Release year</label>
+        <input type="number" id="releaseYear" required @bind="releaseYear" />
+    </div>
+
+    <div class="form-group">
+        <label for="duration">Duration (minutes)</label>
+        <input type="number" id="duration" required @bind="duration" />
+    </div>
+
+    <div class="form-group">
+        <label for="actors">Actors</label>
+        <input type="text" id="actors" required @bind="actors" />
+    </div>
+
+    <div class="form-group">
+        <label for="ageRating">Age rating</label>
+        <input type="number" id="ageRating" required @bind="ageRating" />
+    </div>
+
+    <div class="form-group">
+        <label for="posterUrl">Poster URL</label>
+        <input type="text" id="posterUrl" required value="@posterUrl" @oninput="OnPosterUrlChanged" />
+    </div>
+
+    <button type="submit" class="button-group submit-button" @onclick="RegisterMovie">Register movie</button>
+
+    <p></p>
+</form>
+
+@code 
+{
+    private string title = string.Empty;
+    private string genre = string.Empty;
+    private string description = string.Empty;
+    private int releaseYear;
+    private int duration;
+    private string actors = string.Empty;
+    private int ageRating;
+    private string posterUrl = string.Empty;
+
+    [Parameter]
+    public EventCallback<RegisterMovieViewModel> RegisterNewMovie { get; set; }
+    [Parameter]
+    public EventCallback<string> PosterUrlChanged { get; set; }
+
+
+    private async Task RegisterMovie()
+    {
+        RegisterMovieViewModel newMovie = new RegisterMovieViewModel
+        {
+            Title = title,
+            Genre = genre,
+            Description = description,
+            ReleaseYear = releaseYear,
+            Duration = duration,
+            Actors = actors,
+            AgeRating = ageRating,
+            PosterUrl = posterUrl
+        };
+
+        await RegisterNewMovie.InvokeAsync(newMovie);
+    }
+
+    private async Task OnPosterUrlChanged(ChangeEventArgs e)
+    {
+        posterUrl = e.Value?.ToString() ?? string.Empty;
+        await PosterUrlChanged.InvokeAsync(posterUrl);
+    }
+}
