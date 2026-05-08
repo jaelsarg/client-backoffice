@@ -29,15 +29,7 @@ public partial class Planning
     {
         await LoadRooms();
         await LoadMovies();
-        await LoadMovieEvents();
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await RenderCalendar();
-        }
+        await RenderCalendar();
     }
 
     protected async Task LoadRooms()
@@ -52,7 +44,7 @@ public partial class Planning
 
     protected async Task LoadMovies()
     {
-        IList<Movie> MovieResponses = await MovieService.GetMovies(userRole: "Admin");
+        IList<Movie> MovieResponses = await MovieService.GetMovies(userRole: "Manager");
         Movies = MovieResponses.Select(m => new MovieViewModel
         {
             Id = m.Id,
@@ -62,7 +54,7 @@ public partial class Planning
 
     protected async Task LoadMovieEvents()
     {
-        IList<MovieEvent> MovieEventResponses = await MovieEventService.FindMovieEventsForMonth(DateTime.Now.Month, DateTime.Now.Year); 
+        IList<MovieEvent> MovieEventResponses = await MovieEventService.FindMovieEventsForMonth(month, year); 
         Events = MovieEventResponses.Select(e => new EventViewModel
         {
             MovieId = e.Movie.Id.ToString(),
@@ -75,6 +67,7 @@ public partial class Planning
 
     protected async Task RenderCalendar()
     {
+        await LoadMovieEvents();
         await RenderCalendarDays(month, year);
     }
 
@@ -135,19 +128,16 @@ public partial class Planning
 
     protected async Task SaveNewEvent(EventViewModel newEvent)
     {
-        DayViewModel day = selectedDay;
-
         ScheduleMovieEventRequest request = new ScheduleMovieEventRequest
         {
             MovieId = Guid.Parse(newEvent.MovieId),
             RoomId = Guid.Parse(newEvent.RoomId),
-            Showtime = newEvent.ShowTime
+            RequestedShowtime = newEvent.ShowTime
         };
 
         string eventId = await MovieEventService.ScheduleMovieEvent(request);
 
-        await LoadMovieEvents();
-        await RenderCalendarDays(day.Date.Month, day.Date.Year);
         await HideEventModal();
+        await RenderCalendar();
     }
 }
