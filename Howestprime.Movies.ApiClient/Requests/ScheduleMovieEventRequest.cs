@@ -6,5 +6,5 @@ public sealed class ScheduleMovieEventRequest
 
     public Guid RoomId { get; set; }
 
-    public DateTime RequestedShowtime { get; set; }
+    public DateTime Showtime { get; set; }
 }

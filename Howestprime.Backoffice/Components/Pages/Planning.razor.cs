@@ -61,7 +61,7 @@ public partial class Planning
             MovieTitle = e.Movie.Title,
             RoomId = e.Room.Id.ToString(),
             RoomName = e.Room.Name,
-            ShowTime = e.Showtime
+            Showtime = e.Showtime
         }).ToList();
     }
 
@@ -90,7 +90,7 @@ public partial class Planning
 
         for (int i = 1; i <= daysInMonth; i++)
         {
-            IList<EventViewModel> eventsForDay = Events.Where(e => e.ShowTime.Date == new DateTime(year, month, i)).ToList();
+            IList<EventViewModel> eventsForDay = Events.Where(e => e.Showtime.Date == new DateTime(year, month, i)).ToList();
             DaysInMonth.Add(new DayViewModel
             {
                 Day = i,
@@ -132,7 +132,7 @@ public partial class Planning
         {
             MovieId = Guid.Parse(newEvent.MovieId),
             RoomId = Guid.Parse(newEvent.RoomId),
-            RequestedShowtime = newEvent.ShowTime
+            Showtime = newEvent.Showtime
         };
 
         string eventId = await MovieEventService.ScheduleMovieEvent(request);

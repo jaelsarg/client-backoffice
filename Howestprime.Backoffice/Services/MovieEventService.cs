@@ -26,7 +26,7 @@ public class MovieEventService(IMovieEventsApiClient movieEventsApiClient) : IMo
         {
             MovieId = eventRequest.MovieId,
             RoomId = eventRequest.RoomId,
-            RequestedShowtime = eventRequest.RequestedShowtime
+            Showtime = eventRequest.Showtime
         };
 
         var result = await movieEventsApiClient.ScheduleMovieEventAsync(request);

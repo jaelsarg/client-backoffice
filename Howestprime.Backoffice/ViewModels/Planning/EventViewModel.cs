@@ -6,5 +6,5 @@ public class EventViewModel
     public string? MovieTitle { get; set; } = string.Empty;
     public string RoomId { get; set; } = string.Empty;
     public string? RoomName { get; set; } = string.Empty;
-    public DateTime ShowTime { get; set; }
+    public DateTime Showtime { get; set; }
 }
