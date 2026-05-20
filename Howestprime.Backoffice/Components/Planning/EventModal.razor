@@ -65,7 +65,7 @@
         {
             MovieId = selectedMovie,
             RoomId = selectedRoom,
-            ShowTime = new DateTime(SelectedDate.Year, SelectedDate.Month, SelectedDate.Day, int.Parse(selectedTime.Split(':')[0]), int.Parse(selectedTime.Split(':')[1]), 0, DateTimeKind.Utc)
+            Showtime = new DateTime(SelectedDate.Year, SelectedDate.Month, SelectedDate.Day, int.Parse(selectedTime.Split(':')[0]), int.Parse(selectedTime.Split(':')[1]), 0, DateTimeKind.Utc)
         };
 
         await SaveNewEvent.InvokeAsync(newEvent);

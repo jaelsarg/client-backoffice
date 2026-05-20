@@ -24,7 +24,7 @@
                 @foreach (EventViewModel movieEvent in day.MovieEvents)
                 {
                     <div class="event @(movieEvent.RoomName == "Blue Room" ? "event-blue-room" : "event-yellow-room")">
-                        @movieEvent.ShowTime.ToString("HH:mm") - @movieEvent.MovieTitle
+                        @movieEvent.Showtime.ToString("HH:mm") - @movieEvent.MovieTitle
                     </div>
                 }
             }
