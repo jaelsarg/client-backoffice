@@ -22,10 +22,12 @@ jobs:
       - name: Make release
         run: |
           dotnet restore
-          dotnet publish -c Release -o build
+          dotnet publish Howestprime.Backoffice/Howestprime.Backoffice.csproj -c Release -o build
       
       - name: Zip the release
-        run: zip -r build.zip build
+        run: |
+          cd build
+          zip -r ../build.zip .
       
       - name: Upload the artifact
         uses: actions/upload-artifact@v4
