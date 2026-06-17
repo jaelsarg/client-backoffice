@@ -61,8 +61,7 @@
 }
 
 body {
-  /* background-color: var(--color-bg-main); */
-  background-color: hotpink;
+  background-color: var(--color-bg-main);
   font-family: sans-serif;
   color: var(--color-text-dark);
   line-height: 1.5;
